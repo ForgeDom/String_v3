@@ -1,45 +1,58 @@
 #include <iostream>
 using namespace std;
 
-void reverseString(char* start, char* end) {
-    char temp;
-    while (start < end) {
-        temp = *start;
-        *start++ = *end;
-        *end-- = temp;
-    }
-}
-
-void reverseSentences(char* str) {
-    int length = 0;
-    for (int i = 0; i < str[i] != '\0'; ++i) {
-        length++;
-    }
-    char* start = str;
-    char* end = str;
-
-    for (int i = 0; i <= length; ++i) {
-        if (str[i] == '.' || str[i] == '\0') {
-            end = &str[i - 1];
-
-            reverseString(start, end); 
-
-            start = &str[i + 1];
+bool isEqual(char* str1, char* str2, int length) {
+    for (int i = 0; i < length; ++i) {
+        if (str1[i] != str2[i]) {
+            return false;
         }
     }
+    return true;
+}
 
-    cout << "Reversed text:" << endl;
-    cout << str << endl;
+void replaceWord(char* text, char* oldWord, char* newWord) {
+    char* ptr = text;
+    while (*ptr != '\0') {
+        bool found = true;
+        for (int i = 0; oldWord[i] != '\0'; ++i) {
+            if (ptr[i] != oldWord[i]) {
+                found = false;
+                break;
+            }
+        }
+        int length = 0;
+        for (int i = 0; i < newWord[i] != '\0'; ++i) {
+            length++;
+        }
+        if (found) {
+            for (int i = 0; newWord[i] != '\0'; ++i) {
+                ptr[i] = newWord[i];
+            }
+            ptr += length;
+        }
+        else {
+            ++ptr;
+        }
+    }
 }
 
 int main() {
-    const int size = 1000;
-    char str[size];
+    char text[] = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ";
+    char oldWord[20];
+    char newWord[20];
 
-    cout << "Enter text:" << endl;
-    cin.getline(str, size);
+    cout << text << endl << endl;
 
-    reverseSentences(str);
+    cout << "Enter the word you want to change:" << endl;
+    cin.getline(oldWord, 20);
+
+    cout << "Enter a new word:" << endl;
+    cin.getline(newWord, 20);
+    
+
+    replaceWord(text, oldWord, newWord);
+
+    cout << "New text:" << endl << text << endl;
 
     return 0;
 }
